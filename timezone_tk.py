@@ -20,9 +20,3 @@ time()
 root.mainloop()
 Variable = 1_000_000
 print(Variable)
-def digitize(n):
-    return [int(x) for x in str(n)[::-1]]
-
-def is_isogram(string):
-    string = string.lower()
-    return all(string.count(c) == 1 for c in string)

@@ -4,6 +4,7 @@ def factorial(n):
         return 1
     else:
         return n * factorial(n - 1)
+    
 sum_of_factorials = 0
 
 for i in range(1, 101):

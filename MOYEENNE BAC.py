@@ -9,15 +9,16 @@ for i in range(1,N):
 print("la moyenne est:",M)
 
 if M>=7 and M<10:
-    elif M>=10 and M<12:
-        men="pass"
-    elif M>=12 and M<=13:
-        men="a.bien"
-    elif M>13 and M<=16:
-        men="bien"
-    else:
+    men="Redouble"
+elif M>=10 and M<12:
+    men="pass"
+elif M>=12 and M<=13:
+    men="a.bien"
+elif M>13 and M<=16:
+    men="bien"
+else:
         men="tres bien"
-print(nom,prenom,Mention)
+print(nom,prenom,men)
                     
     
     
