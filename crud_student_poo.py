@@ -33,15 +33,42 @@ class StudentDatabase:
                 return "Student deleted successfully."
         return "Student not found."
 
-db = StudentDatabase()
+def main():
+    db = StudentDatabase()
 
-db.create_student(1, "OUAD", 20)
-db.create_student(2, "DOUIRY", 22)
+    while True:
+        print("\nMenu:")
+        print("1. Ajouter un étudiant")
+        print("2. Lire un étudiant")
+        print("3. Mettre à jour un étudiant")
+        print("4. Supprimer un étudiant")
+        print("5. Quitter")
+        
+        choice = input("Choisissez une option (1/2/3/4/5): ")
+        
+        if choice == "1":
+            student_id = int(input("Entrez l'ID de l'étudiant : "))
+            name = input("Entrez le nom de l'étudiant : ")
+            age = int(input("Entrez l'âge de l'étudiant : "))
+            db.create_student(student_id, name, age)
+        elif choice == "2":
+            student_id = int(input("Entrez l'ID de l'étudiant à lire : "))
+            result = db.read_student(student_id)
+            print(result)
+        elif choice == "3":
+            student_id = int(input("Entrez l'ID de l'étudiant à mettre à jour : "))
+            name = input("Entrez le nouveau nom de l'étudiant : ")
+            age = int(input("Entrez le nouvel âge de l'étudiant : "))
+            result = db.update_student(student_id, name, age)
+            print(result)
+        elif choice == "4":
+            student_id = int(input("Entrez l'ID de l'étudiant à supprimer : "))
+            result = db.delete_student(student_id)
+            print(result)
+        elif choice == "5":
+            print("Au revoir !")
+            break
+        else:
+            print("Option non valide. Veuillez choisir une option valide.")
 
-print(db.read_student(1))
-print(db.read_student(3))  
-
-db.update_student(1, "Taha", 21)
-print(db.read_student(1))  
-db.delete_student(2)
-print(db.read_student(2))  
+main()
