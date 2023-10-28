@@ -1,3 +1,6 @@
+import tkinter as tk
+from tkinter import ttk
+
 class Student:
     def __init__(self, student_id, name, age):
         self.student_id = student_id
@@ -33,42 +36,85 @@ class StudentDatabase:
                 return "Student deleted successfully."
         return "Student not found."
 
-def main():
-    db = StudentDatabase()
+def create_student(db):
+    student_id = int(student_id_entry.get())
+    name = name_entry.get()
+    age = int(age_entry.get())
+    db.create_student(student_id, name, age)
+    result_label.config(text="Étudiant ajouté avec succès.")
 
-    while True:
-        print("\nMenu:")
-        print("1. Ajouter un étudiant")
-        print("2. Lire un étudiant")
-        print("3. Mettre à jour un étudiant")
-        print("4. Supprimer un étudiant")
-        print("5. Quitter")
-        
-        choice = input("Choisissez une option (1/2/3/4/5): ")
-        
-        if choice == "1":
-            student_id = int(input("Entrez l'ID de l'étudiant : "))
-            name = input("Entrez le nom de l'étudiant : ")
-            age = int(input("Entrez l'âge de l'étudiant : "))
-            db.create_student(student_id, name, age)
-        elif choice == "2":
-            student_id = int(input("Entrez l'ID de l'étudiant à lire : "))
-            result = db.read_student(student_id)
-            print(result)
-        elif choice == "3":
-            student_id = int(input("Entrez l'ID de l'étudiant à mettre à jour : "))
-            name = input("Entrez le nouveau nom de l'étudiant : ")
-            age = int(input("Entrez le nouvel âge de l'étudiant : "))
-            result = db.update_student(student_id, name, age)
-            print(result)
-        elif choice == "4":
-            student_id = int(input("Entrez l'ID de l'étudiant à supprimer : "))
-            result = db.delete_student(student_id)
-            print(result)
-        elif choice == "5":
-            print("Au revoir !")
-            break
-        else:
-            print("Option non valide. Veuillez choisir une option valide.")
+def read_student(db):
+    student_id = int(student_id_entry.get())
+    result = db.read_student(student_id)
+    result_label.config(text=result)
 
-main()
+def update_student(db):
+    student_id = int(student_id_entry.get())
+    name = name_entry.get()
+    age = int(age_entry.get())
+    result = db.update_student(student_id, name, age)
+    result_label.config(text=result)
+
+def delete_student(db):
+    student_id = int(student_id_entry.get())
+    result = db.delete_student(student_id)
+    result_label.config(text=result)
+
+def show_all_students():
+    students = db.students
+    if not students:
+        result_label.config(text="Aucun étudiant enregistré.")
+    else:
+        show_students_window = tk.Toplevel()
+        show_students_window.title("Liste des Étudiants")
+
+        tree = ttk.Treeview(show_students_window, columns=("ID", "Nom", "Âge"))
+        tree.heading("#1", text="ID")
+        tree.heading("#2", text="Nom")
+        tree.heading("#3", text="Âge")
+
+        for student in students:
+            tree.insert("", "end", values=(student.student_id, student.name, student.age))
+
+        tree.pack()
+
+def on_closing():
+    window.destroy()
+
+db = StudentDatabase()
+
+window = tk.Tk()
+window.title("Gestion des Étudiants")
+
+student_id_label = tk.Label(window, text="ID de l'étudiant:")
+student_id_label.pack()
+student_id_entry = tk.Entry(window)
+student_id_entry.pack()
+
+name_label = tk.Label(window, text="Nom de l'étudiant:")
+name_label.pack()
+name_entry = tk.Entry(window)
+name_entry.pack()
+
+age_label = tk.Label(window, text="Âge de l'étudiant:")
+age_label.pack()
+age_entry = tk.Entry(window)
+age_entry.pack()
+
+add_button = tk.Button(window, text="Ajouter Étudiant", command=lambda: create_student(db))
+read_button = tk.Button(window, text="Lire Étudiant", command=lambda: read_student(db))
+update_button = tk.Button(window, text="Mettre à Jour Étudiant", command=lambda: update_student(db))
+delete_button = tk.Button(window, text="Supprimer Étudiant", command=lambda: delete_student(db))
+show_all_button = tk.Button(window, text="Afficher tous les étudiants", command=show_all_students)
+
+add_button.pack()
+read_button.pack()
+update_button.pack()
+delete_button.pack()
+show_all_button.pack()
+
+result_label = tk.Label(window, text="")
+result_label.pack()
+
+window.protocol("WM_DELETE_WINDOW", on_closing)
+window.mainloop()
