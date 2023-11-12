@@ -6,7 +6,7 @@ def MotValide(mot):
 def initialiserSolution(n):
     mot = input("Saisir le mot à trouver (en majuscules, 4-25 caractères): ")
     while not MotValide(mot):
-        mot = input("Saisir le mot à trouver (en majuscules, 4-25 caractères): ")
+        mot = input("Saisir le mot à trouver ( majuscules, 4-25 caractères): ")
     Tcar = list(mot)
     return Tcar
 
